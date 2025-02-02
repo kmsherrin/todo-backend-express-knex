@@ -38,21 +38,21 @@ exports.seed = async function (knex) {
         content: "Create wireframes and mockups for the new homepage",
         start_date: new Date("2025-02-10"),
         end_date: new Date("2025-02-20"),
-        project_id: projects[0],
+        project_id: projects[0].id,
       },
       {
         title: "Implement User Authentication",
         content: "Set up secure login and registration system",
         start_date: new Date("2025-02-15"),
         end_date: new Date("2025-02-25"),
-        project_id: projects[1],
+        project_id: projects[1].id,
       },
       {
         title: "Data Schema Design",
         content: "Design new database schema and migration plan",
         start_date: new Date("2025-02-20"),
         end_date: new Date("2025-03-05"),
-        project_id: projects[2],
+        project_id: projects[2].id,
       },
     ])
     .returning("id");
