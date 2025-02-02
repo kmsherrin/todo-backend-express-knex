@@ -5,12 +5,25 @@ const knex = require("./connection.js");
  */
 async function all(currentUser) {
   return knex("tasks")
-    .leftJoin("users_tasks", "tasks.id", "users_tasks.task_id")
+    .leftJoin("user_tasks", "tasks.id", "user_tasks.task_id")
     .where({ user_id: currentUser });
 }
 
-async function get(id) {
-  const results = await knex("tasks").where({ id: id });
+async function get(projectId, currentUser, taskId) {
+  // Authorisation Check, is user in project?
+  const result = await knex("user_projects").where({
+    user_id: currentUser,
+    project_id: projectId,
+  });
+
+  if (result.length === 0) {
+    throw new Error("User not in project");
+  }
+
+  const results = await knex("tasks").where({
+    project_id: projectId,
+    "tasks.id": taskId,
+  });
   return results[0];
 }
 

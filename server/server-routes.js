@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const todos = require("./database/todo-queries.js");
+const projects = require("./database/project-queries.js");
 
 function createToDo(req, data) {
   const protocol = req.protocol,
@@ -14,16 +15,28 @@ function createToDo(req, data) {
   };
 }
 
-async function getAllTodos(req, res) {
+async function getAllTasks(req, res) {
   const currentUser = 1;
   const allEntries = await todos.all(currentUser);
   return res.send(allEntries.map(_.curry(createToDo)(req)));
 }
 
-async function getTodo(req, res) {
+async function getTask(req, res) {
   const currentUser = 1;
-  const todo = await todos.get(req.params.id);
-  return res.send(todo);
+  const task = await todos.get(
+    req.params.projectId,
+    currentUser,
+    req.params.id
+  );
+  return res.send(task);
+}
+
+async function getProjectTasks(req, res) {
+  const currentUser = 1;
+
+  const projectTasks = await projects.get(currentUser, req.params.projectId);
+
+  return res.send(projectTasks);
 }
 
 async function postTodo(req, res) {
@@ -60,11 +73,15 @@ function addErrorReporting(func, message) {
 }
 
 const toExport = {
-  getAllTodos: {
-    method: getAllTodos,
+  getAllTasks: {
+    method: getAllTasks,
     errorMessage: "Could not fetch all todos",
   },
-  getTodo: { method: getTodo, errorMessage: "Could not fetch todo" },
+  getTask: { method: getTask, errorMessage: "Could not fetch todo" },
+  getProjectTasks: {
+    method: getProjectTasks,
+    errorMessage: "Could not fetch project tasks",
+  },
   postTodo: { method: postTodo, errorMessage: "Could not post todo" },
   patchTodo: { method: patchTodo, errorMessage: "Could not patch todo" },
   deleteAllTodos: {
