@@ -1,18 +1,21 @@
-const app = require('./server-config.js');
-const routes = require('./server-routes.js');
+const app = require("./server-config.js");
+const routes = require("./server-routes.js");
 
 const port = process.env.PORT || 5000;
 
-app.get('/', routes.getAllTodos);
-app.get('/:id', routes.getTodo);
+app.get("/", routes.getAllTasks);
 
-app.post('/', routes.postTodo);
-app.patch('/:id', routes.patchTodo);
+app.get("/project/:projectId", routes.getProjectTasks);
 
-app.delete('/', routes.deleteAllTodos);
-app.delete('/:id', routes.deleteTodo);
+app.get("/project/:projectId/task/:id", routes.getTask);
 
-if (process.env.NODE_ENV !== 'test') {
+app.post("/", routes.postTodo);
+app.patch("/:id", routes.patchTodo);
+
+app.delete("/", routes.deleteAllTodos);
+app.delete("/:id", routes.deleteTodo);
+
+if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => console.log(`Listening on port ${port}`));
 }
 
