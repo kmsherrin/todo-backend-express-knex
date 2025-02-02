@@ -4,67 +4,31 @@
   Knex also allows for easy switching between databases. 
   But the .returning() method will only work for PostgreSQL, MSSQL, and Oracle databases.
 */
-require('dotenv').config();
+require("dotenv").config();
 module.exports = {
-
   test: {
-    client: 'postgresql',
+    client: "sqlite3",
     connection: {
-      database: process.env.PGDATABASE,
-      user:     process.env.PGUSER,
-      password: process.env.PGPASSWORD
-    },
-    pool: {
-      min: 2,
-      max: 10
+      filename: "./test.sqlite3",
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: "knex_migrations",
+    },
   },
-
   development: {
-    client: 'postgresql',
+    client: "sqlite3",
     connection: {
-      database: process.env.PGDATABASE,
-      user:     process.env.PGUSER,
-      password: process.env.PGPASSWORD
-    },
-    pool: {
-      min: 2,
-      max: 10
+      filename: "./dev.sqlite3",
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      tableName: "knex_migrations",
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
   },
-
   production: {
-    client: 'postgresql',
+    client: "pg",
     connection: process.env.DATABASE_URL,
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
+      tableName: "knex_migrations",
+    },
+  },
 };
