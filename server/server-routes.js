@@ -6,12 +6,13 @@ function createToDo(req, data) {
   const protocol = req.protocol,
     host = req.get("host"),
     id = data.id;
+  projectId = data.project_id;
 
   return {
     title: data.title,
-    order: data.order,
-    completed: data.completed || false,
-    url: `${protocol}://${host}/${id}`,
+    startDate: data.start_date,
+    stateDateIso: new Date(data.start_date).toISOString(),
+    url: `${protocol}://${host}/project/${projectId}/task/${id}`,
   };
 }
 

@@ -3,10 +3,13 @@ const routes = require("./server-routes.js");
 
 const port = process.env.PORT || 5000;
 
+// Base route for fetching all tasks user is assigned to
 app.get("/", routes.getAllTasks);
 
+// Route for fetching all of a projects tasks
 app.get("/project/:projectId", routes.getProjectTasks);
 
+// Route for fetching a specific task, with it's content
 app.get("/project/:projectId/task/:id", routes.getTask);
 
 app.post("/", routes.postTodo);

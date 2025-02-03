@@ -16,12 +16,13 @@ exports.up = function (knex) {
     })
     .createTable("tasks", (table) => {
       table.increments("id");
-      table.string("title");
+      table.string("title").notNullable();
       table.text("content");
       table.timestamps(true, true);
       table.timestamp("start_date", { useTz: true });
       table.timestamp("end_date", { useTz: true });
-      table.uuid("project_id");
+      table.uuid("project_id").notNullable();
+      table.enum("status", ["todo", "in_progress", "done"]).defaultTo("todo");
 
       table.foreign("project_id").references("projects.id").onDelete("CASCADE");
     })
